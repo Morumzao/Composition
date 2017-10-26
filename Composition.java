@@ -24,11 +24,7 @@ public class Composition<T>  {
     }
 
     private Function<?, T> getFunction(Class typeClass){
-        return composers.getOrDefault(typeClass, this::nullable);
-    }
-    
-    private T nullable(Object object){
-        return null;
+        return composers.getOrDefault(typeClass, null);
     }
 
     public <P> Composer<P> run(Function<P, T> function){
@@ -66,20 +62,11 @@ public class Composition<T>  {
 
         private Function<P, T> function;
 
-        private Class typeClass;
-
-        private Composition composition;
-
         private Composer(Function<P, T> function){
             this.function = function;
         }
 
-        private Class typeClass(){
-            return typeClass;
-        }
-
         public void when(Class typeClass){
-            this.typeClass = typeClass;
             composers.putIfAbsent(typeClass, function);
         }
 
